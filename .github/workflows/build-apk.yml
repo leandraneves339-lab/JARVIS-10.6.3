@@ -8,23 +8,21 @@ on:
 
 jobs:
   build-android:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Build APK
-        uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
-        with:
-          workdir: .
-          buildozer_version: stable
-          command: buildozer android debug
+        run: |
+          docker run --rm \
+            -v "$PWD":/home/user/hostcwd \
+            ghcr.io/kivy/buildozer:latest \
+            android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: JARVIS-10.6.3-APK
-          path: ${{ steps.buildozer.outputs.filename }}
-
+          path: bin/*.apk
