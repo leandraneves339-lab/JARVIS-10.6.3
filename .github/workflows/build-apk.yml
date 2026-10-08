@@ -1,30 +1,30 @@
 name: Build JARVIS Android APK
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-      - principal
+'on':
+workflow_dispatch:
+push:
+branches:
+- main
+- principal
 
 jobs:
-  build-android:
-    runs-on: ubuntu-24.04
+build-android:
+runs-on: ubuntu-24.04
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+steps:
+  - name: Checkout
+    uses: actions/checkout@v4
 
-      - name: Build APK
-        run: |
-          docker run --rm \
-            -v "$PWD":/home/user/hostcwd \
-            ghcr.io/kivy/buildozer:latest \
-            android debug
+  - name: Build APK
+    run: |
+      docker run --rm \
+        -v "$PWD":/home/user/hostcwd \
+        ghcr.io/kivy/buildozer:latest \
+        android debug
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: JARVIS-10.6.3-APK
-          path: bin/*.apk
-          if-no-files-found: error
+  - name: Upload APK
+    uses: actions/upload-artifact@v4
+    with:
+      name: JARVIS-10.6.3-APK
+      path: bin/*.apk
+      if-no-files-found: error
